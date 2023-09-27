@@ -1,7 +1,7 @@
-version: '3.1'
+version: "3.1"
+name: "new-dev"
 
 services:
-
   mongo:
     image: mongo
     restart: always
@@ -10,6 +10,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
+    entrypoint: ["/usr/bin/mongod", "--bind_ip_all", "--replSet", "dbrs"]
 
   mongo-express:
     image: mongo-express

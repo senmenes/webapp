@@ -3,6 +3,7 @@ package com.webapp.demo.handler;
 
 import com.webapp.demo.dto.ApiErrorDto;
 import com.webapp.demo.dto.GenericErrorResponseDto;
+import com.webapp.demo.exceptions.ActivationMailException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,19 +35,15 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(apiErrorDto, HttpStatus.BAD_REQUEST);
     }
 
-//    @ExceptionHandler(DuplicateKeyException.class)
-//    public ResponseEntity<ApiErrorDto>  duplicateKeyMongoDb(DuplicateKeyException exception){
-//        ApiErrorDto apiErrorDto = new ApiErrorDto();
-//        Map<String, String> errors = new HashMap<>();
-//
-//        if(exception.getMessage().contains("email")){
-//            errors.put("email", "email is not unique");
-//        } else if (exception.getMessage().contains("username")){
-//            errors.put("userName", "username is not unique");
-//        }
-//        apiErrorDto.setMessage("Validation Error");
-//        apiErrorDto.setPath(apiErrorDto.getPath());
-//        apiErrorDto.setValidationErrors(errors);
-//        return new ResponseEntity<>(apiErrorDto, HttpStatus.BAD_REQUEST);
-//    }
+    @ExceptionHandler(ActivationMailException.class)
+    public ResponseEntity<ApiErrorDto> activationMailEx(ActivationMailException exception){
+        ApiErrorDto apiErrorDto = new ApiErrorDto();
+        Map<String, String> errors = new HashMap<>();
+        errors.put("general", exception.getMessage());
+
+        apiErrorDto.setMessage("Mail Error");
+        apiErrorDto.setPath(apiErrorDto.getPath());
+        apiErrorDto.setValidationErrors(errors);
+        return new ResponseEntity<>(apiErrorDto, HttpStatus.BAD_GATEWAY);
+    }
 }

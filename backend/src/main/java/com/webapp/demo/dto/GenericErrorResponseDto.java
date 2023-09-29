@@ -1,11 +1,11 @@
 package com.webapp.demo.dto;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 
 @Data
-@Builder
+@AllArgsConstructor
 public class GenericErrorResponseDto<T> {
     private T message;
     private HttpStatus returnCode;

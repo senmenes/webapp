@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { singUp } from "./api";
 import { Input } from "./component/Input";
+import ProgressingSpin from "../../shared/components/ProgressingSpin";
 
 function SignUp() {
   const [email, setEmail] = useState();
@@ -23,6 +24,12 @@ function SignUp() {
       return { ...lastError, email: undefined };
     });
   }, [email]);
+
+  useEffect(() => {
+    setErrorMessage(function (lastError) {
+      return { ...lastError, password: undefined };
+    });
+  }, [password]);
 
   const onSubmit = (event) => {
     setSuccessMessage(false);
@@ -84,7 +91,11 @@ function SignUp() {
                 <div className="alert alert-success">Successful</div>
               )}
             </div>
-            {errorMessage && <div className="alert alert-danger">Failed</div>}
+            {errorMessage.general && (
+              <div className="alert alert-danger">
+                Failed: {errorMessage.general}
+              </div>
+            )}
 
             <div className="text-center">
               <button
@@ -94,10 +105,7 @@ function SignUp() {
               >
                 {apiProgress && (
                   <>
-                    <span
-                      className="spinner-border spinner-border-sm"
-                      aria-hidden="true"
-                    ></span>
+                    <ProgressingSpin sm></ProgressingSpin>
                     <span className="visually-hidden" role="status">
                       Loading...
                     </span>

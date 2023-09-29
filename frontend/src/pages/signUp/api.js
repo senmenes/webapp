@@ -1,5 +1,5 @@
-import axios from "axios"
+import axios from "axios";
 
 export function singUp(body) {
-    return axios.post("/api/v1/createUser", body)
+  return axios.post("/api/v1/createUser", body);
 }

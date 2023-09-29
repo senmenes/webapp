@@ -1,5 +1,6 @@
 package com.webapp.demo.service;
 
+import com.webapp.demo.exceptions.ActivationMailException;
 import com.webapp.demo.model.User;
 import com.webapp.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ public class SignUpService {
 
     @Autowired
     UserService userService;
+
     @Autowired
     MailService mailService;
 
@@ -25,11 +27,15 @@ public class SignUpService {
 
     @Transactional(rollbackFor = Exception.class)
     public User createUser(User user){
-        user.setActive(false);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setActivationToken(UUID.randomUUID());
-        userService.save(user);
-        mailService.sendActivationMessage(user);
+        try{
+            user.setActive(false);
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setActivationToken(UUID.randomUUID());
+            userService.save(user);
+            mailService.sendActivationMessage(user);
+        } catch (MailException mailException) {
+            throw new ActivationMailException();
+        }
         return user;
     }
 

@@ -1,11 +1,15 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import axios from "axios";
-import SignUp from "./pages/signUp";
+import { Link, Outlet } from "react-router-dom";
+import NavBar from "./shared/components/NavBar";
 
 function App() {
-  return <SignUp></SignUp>;
+  return (
+    <>
+      <NavBar></NavBar>
+      <div className="container mt-3">
+        <Outlet></Outlet>
+      </div>
+    </>
+  );
 }
 
 export default App;

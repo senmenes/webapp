@@ -32,4 +32,12 @@ public interface UserRepository extends MongoRepository<User, UUID> {
     @Update("{'$set': {'activationToken': ?1," +
                       "'active': ?2}}")
     Integer findByActivationTokenAndActivateUser(UUID token, UUID activationToken, Boolean active);
+
+    User findByPasswordAndEmail(String password, String email);
+
+    User findByPasswordAndUsername(String password, String username);
+
+    User findByUsernameOrEmailAndPassword(String username, String email, String password);
+
+    User findByEmailOrUsername(String email, String username);
 }

@@ -9,10 +9,13 @@ function UserList() {
   const [size, setSize] = useState(3);
   const [totalPage, setTotalPage] = useState(1);
   const [menuItems, setMenuItems] = useState([]);
+  const [apiProgress, setApiProgress] = useState(false);
 
   let c = page * size;
 
   useEffect(() => {
+    //setUserList([]);
+    setApiProgress(true);
     getUsers({ page, size })
       .then((response) => {
         setUserList(response.data.userList);
@@ -20,16 +23,14 @@ function UserList() {
         setCount(page * size);
       })
       .catch((axiosError) => {})
-      .finally(() => {});
+      .finally(() => {
+        setApiProgress(false);
+      });
   }, [, size, page]);
 
   const handleChange = (selected) => {
     setSize(selected.target.value);
     console.log(size);
-  };
-
-  const handlePage = (i) => {
-    console.log(i);
   };
 
   useEffect(() => {
@@ -54,6 +55,8 @@ function UserList() {
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
         </select>
       </div>
       <table className="table">
@@ -65,16 +68,18 @@ function UserList() {
             <th scope="col">Email</th>
           </tr>
         </thead>
-        <tbody>
-          {userList.map((user, i) => (
-            <tr key={i}>
-              <th scope="row">{++c}</th>
-              <td>{user.id}</td>
-              <td>{user.username}</td>
-              <td>{user.email}</td>
-            </tr>
-          ))}
-        </tbody>
+        {!apiProgress && (
+          <tbody>
+            {userList.map((user, i) => (
+              <tr key={i}>
+                <th scope="row">{++c}</th>
+                <td>{user.id}</td>
+                <td>{user.username}</td>
+                <td>{user.email}</td>
+              </tr>
+            ))}
+          </tbody>
+        )}
       </table>
       <nav aria-label="...">
         <ul className="pagination">

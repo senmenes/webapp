@@ -4,6 +4,7 @@ import Home from "../pages/home/index.jsx";
 import SignUp from "../pages/signUp/index.jsx";
 import { createBrowserRouter } from "react-router-dom";
 import UserList from "../pages/userList/index.jsx";
+import Login from "../pages/login/index.jsx";
 export default createBrowserRouter([
   {
     path: "/",
@@ -25,6 +26,10 @@ export default createBrowserRouter([
       {
         path: "/users",
         Component: UserList,
+      },
+      {
+        path: "/login",
+        Component: Login,
       },
     ],
   },

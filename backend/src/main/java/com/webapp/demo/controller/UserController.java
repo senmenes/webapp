@@ -1,12 +1,10 @@
 package com.webapp.demo.controller;
 
-import com.webapp.demo.dto.CreateUserRequestDto;
-import com.webapp.demo.dto.GenericErrorResponseDto;
-import com.webapp.demo.dto.PageRequestDto;
-import com.webapp.demo.dto.UsersPaginationDto;
+import com.webapp.demo.dto.*;
 import com.webapp.demo.model.User;
 import com.webapp.demo.model.UserPublicDataOnly;
 import com.webapp.demo.service.ActivationService;
+import com.webapp.demo.service.LoginService;
 import com.webapp.demo.service.SignUpService;
 import com.webapp.demo.service.UserService;
 import jakarta.validation.Valid;
@@ -24,6 +22,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1")
 public class UserController {
+    @Autowired
+    private LoginService loginService;
 
     @Autowired
     private UserService userService;
@@ -56,6 +56,15 @@ public class UserController {
     public ResponseEntity<?> activateUser(@Valid @PathVariable String pathVariable) {
         GenericErrorResponseDto<String> response = activationService.activateUser(pathVariable);
         return ResponseEntity.status(response.getReturnCode()).body(response.getMessage());
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDto request) {
+        if(loginService.login(request)) {
+            return ResponseEntity.ok("");
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("");
     }
 
 }

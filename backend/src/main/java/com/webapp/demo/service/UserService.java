@@ -30,4 +30,20 @@ public class UserService {
     public Page<User> findAll(Pageable page){
         return userRepository.findAll(page);
     }
+
+    public User findByPasswordAndEmail(String password, String email) {
+        return userRepository.findByPasswordAndEmail(password, email);
+    }
+
+    public User findByPasswordAndUsername(String password, String username) {
+        return userRepository.findByPasswordAndUsername(password, username);
+    }
+
+    public User findByEmailOrUsername(String username) {
+        return userRepository.findByEmailOrUsername(username, username);
+    }
+
+    public User findByUserNameOrEmailAndPassword(String password, String username) {
+        return userRepository.findByUsernameOrEmailAndPassword(username, username, password);
+    }
 }
